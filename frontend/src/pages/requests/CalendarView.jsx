@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { requestService } from '../../services/requestService';
 import Card from '../../components/common/Card';
 import toast from 'react-hot-toast';
@@ -8,6 +9,7 @@ const CalendarView = () => {
     const [events, setEvents] = useState([]);
     const [currentDate, setCurrentDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchCalendarData();
@@ -77,7 +79,49 @@ const CalendarView = () => {
 
     return (
         <div>
-            <h1 style={{ marginBottom: '24px', fontSize: '28px' }}>Preventive Maintenance Calendar</h1>
+            <div style={{ marginBottom: '24px' }}>
+                <h1 style={{ fontSize: '28px', marginBottom: '12px' }}>Preventive Maintenance Calendar</h1>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <button 
+                        onClick={() => navigate('/requests')}
+                        className="btn btn-secondary"
+                        style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '6px',
+                            padding: '9px 18px',
+                            fontSize: '13px'
+                        }}
+                    >
+                        📋 List View
+                    </button>
+                    <button 
+                        onClick={() => navigate('/kanban')}
+                        className="btn btn-secondary"
+                        style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '6px',
+                            padding: '9px 18px',
+                            fontSize: '13px'
+                        }}
+                    >
+                        📊 Kanban Board
+                    </button>
+                    <button 
+                        className="btn btn-primary"
+                        style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '6px',
+                            padding: '9px 18px',
+                            fontSize: '13px'
+                        }}
+                    >
+                        📅 Calendar View
+                    </button>
+                </div>
+            </div>
 
             <Card>
                 <div className="calendar-header">

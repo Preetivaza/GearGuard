@@ -19,8 +19,6 @@ const Navbar = () => {
         { path: '/', label: 'Dashboard', icon: '📊' },
         { path: '/equipment', label: 'Equipment', icon: '🔧' },
         { path: '/requests', label: 'Requests', icon: '📝' },
-        { path: '/kanban', label: 'Kanban Board', icon: '📋' },
-        { path: '/calendar', label: 'Calendar', icon: '📅' },
         { path: '/spare-parts', label: 'Spare Parts', icon: '📦', roles: ['Technician', 'Manager'] },
         { path: '/teams', label: 'Teams', icon: '👥', roles: ['Manager'] },
     ];

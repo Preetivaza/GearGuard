@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { requestService } from '../../services/requestService';
 import Card from '../../components/common/Card';
 import './KanbanBoard.css';
@@ -7,6 +8,7 @@ import toast from 'react-hot-toast';
 const KanbanBoard = () => {
     const [kanbanData, setKanbanData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const columns = [
         { id: 'New', title: 'New', color: '#3b82f6' },
@@ -44,7 +46,49 @@ const KanbanBoard = () => {
 
     return (
         <div>
-            <h1 style={{ marginBottom: '24px', fontSize: '28px' }}>Kanban Board</h1>
+            <div style={{ marginBottom: '24px' }}>
+                <h1 style={{ fontSize: '28px', marginBottom: '12px' }}>Kanban Board</h1>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <button 
+                        onClick={() => navigate('/requests')}
+                        className="btn btn-secondary"
+                        style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '6px',
+                            padding: '9px 18px',
+                            fontSize: '13px'
+                        }}
+                    >
+                        📋 List View
+                    </button>
+                    <button 
+                        className="btn btn-primary"
+                        style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '6px',
+                            padding: '9px 18px',
+                            fontSize: '13px'
+                        }}
+                    >
+                        📊 Kanban Board
+                    </button>
+                    <button 
+                        onClick={() => navigate('/calendar')}
+                        className="btn btn-secondary"
+                        style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '6px',
+                            padding: '9px 18px',
+                            fontSize: '13px'
+                        }}
+                    >
+                        📅 Calendar View
+                    </button>
+                </div>
+            </div>
 
             <div className="kanban-board">
                 {Object.keys(kanbanData).map((status) => (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { requestService } from '../../services/requestService';
 import Card from '../../components/common/Card';
 import toast from 'react-hot-toast';
@@ -12,6 +12,7 @@ const RequestList = () => {
         requestType: '',
         priority: '',
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchRequests();
@@ -40,8 +41,50 @@ const RequestList = () => {
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                <h1 style={{ fontSize: '28px' }}>Maintenance Requests</h1>
-                <Link to="/requests/new" className="btn btn-primary">
+                <div>
+                    <h1 style={{ fontSize: '28px', marginBottom: '8px' }}>Maintenance Requests</h1>
+                    <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+                        <button 
+                            className="btn btn-primary"
+                            style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '6px',
+                                padding: '9px 18px',
+                                fontSize: '13px'
+                            }}
+                        >
+                            📋 List View
+                        </button>
+                        <button 
+                            onClick={() => navigate('/kanban')}
+                            className="btn btn-secondary"
+                            style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '6px',
+                                padding: '9px 18px',
+                                fontSize: '13px'
+                            }}
+                        >
+                            📊 Kanban Board
+                        </button>
+                        <button 
+                            onClick={() => navigate('/calendar')}
+                            className="btn btn-secondary"
+                            style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '6px',
+                                padding: '9px 18px',
+                                fontSize: '13px'
+                            }}
+                        >
+                            📅 Calendar View
+                        </button>
+                    </div>
+                </div>
+                <Link to="/requests/new" className="btn btn-success">
                     + New Request
                 </Link>
             </div>
