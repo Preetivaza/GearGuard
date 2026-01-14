@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useState, useEffect, useRef } from 'react';
+import NotificationCenter from './NotificationCenter';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -20,6 +21,7 @@ const Navbar = () => {
         { path: '/requests', label: 'Requests', icon: '📝' },
         { path: '/kanban', label: 'Kanban Board', icon: '📋' },
         { path: '/calendar', label: 'Calendar', icon: '📅' },
+        { path: '/spare-parts', label: 'Spare Parts', icon: '📦', roles: ['Technician', 'Manager'] },
         { path: '/teams', label: 'Teams', icon: '👥', roles: ['Manager'] },
     ];
 
@@ -66,6 +68,7 @@ const Navbar = () => {
                 </div>
 
                 <div className="navbar-menu" ref={dropdownRef}>
+                    <NotificationCenter />
                     <div className="profile-dropdown">
                         <button
                             className="profile-button"

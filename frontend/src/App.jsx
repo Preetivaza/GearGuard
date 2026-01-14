@@ -29,6 +29,9 @@ import CalendarView from './pages/requests/CalendarView';
 import TeamList from './pages/teams/TeamList';
 import TeamForm from './pages/teams/TeamForm';
 
+// Spare Parts Pages
+import SparePartsList from './pages/spareParts/SparePartsList';
+
 function App() {
     return (
         <AuthProvider>
@@ -174,6 +177,18 @@ function App() {
                             <ProtectedRoute roles={['Manager']}>
                                 <Layout>
                                     <TeamForm />
+                                </Layout>
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* Spare Parts Routes (Technician & Manager) */}
+                    <Route
+                        path="/spare-parts"
+                        element={
+                            <ProtectedRoute roles={['Technician', 'Manager']}>
+                                <Layout>
+                                    <SparePartsList />
                                 </Layout>
                             </ProtectedRoute>
                         }

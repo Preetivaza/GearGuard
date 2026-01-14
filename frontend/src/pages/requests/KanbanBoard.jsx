@@ -5,13 +5,7 @@ import './KanbanBoard.css';
 import toast from 'react-hot-toast';
 
 const KanbanBoard = () => {
-    const [kanbanData, setKanbanData] = useState({
-        New: [],
-        'In Progress': [],
-        Repaired: [],
-        Scrap: [],
-    });
-    const [requests, setRequests] = useState([]);
+    const [kanbanData, setKanbanData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const columns = [
@@ -46,7 +40,7 @@ const KanbanBoard = () => {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading || !kanbanData) return <div>Loading...</div>;
 
     return (
         <div>

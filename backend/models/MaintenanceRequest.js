@@ -57,6 +57,43 @@ const maintenanceRequestSchema = new mongoose.Schema(
         notes: {
             type: String,
         },
+        // Spare parts tracking
+        partsUsed: [
+            {
+                part: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'SparePart',
+                },
+                quantity: {
+                    type: Number,
+                    min: 1,
+                    required: true,
+                },
+                cost: {
+                    type: Number,
+                    min: 0,
+                },
+            },
+        ],
+        // SLA tracking
+        sla: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'SLA',
+        },
+        slaDeadline: {
+            type: Date,
+        },
+        slaStatus: {
+            type: String,
+            enum: ['On Time', 'At Risk', 'Breached', 'N/A'],
+            default: 'N/A',
+        },
+        responseTime: {
+            type: Date,
+        },
+        resolutionTime: {
+            type: Date,
+        },
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
@@ -76,6 +113,18 @@ const maintenanceRequestSchema = new mongoose.Schema(
 maintenanceRequestSchema.index({ status: 1, priority: 1 });
 maintenanceRequestSchema.index({ equipment: 1 });
 maintenanceRequestSchema.index({ scheduledDate: 1 });
+maintenanceRequestSchema.index({ slaStatus: 1 });
+maintenanceRequestSchema.index({ slaDeadline: 1 });
+
+// Virtual for time remaining until SLA deadline
+maintenanceRequestSchema.virtual('slaTimeRemaining').get(function () {
+    if (!this.slaDeadline || this.status === 'Repaired' || this.status === 'Scrap') {
+        return null;
+    }
+    const now = new Date();
+    const diffMs = this.slaDeadline - now;
+    return diffMs > 0 ? Math.floor(diffMs / (1000 * 60)) : 0; // Returns minutes
+});
 
 // Update equipment status when request status changes
 maintenanceRequestSchema.post('save', async function () {

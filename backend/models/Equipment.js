@@ -61,6 +61,23 @@ const equipmentSchema = new mongoose.Schema(
             type: Map,
             of: String,
         },
+        // Budget tracking
+        maintenanceBudget: {
+            type: Number,
+            min: 0,
+            default: 0,
+        },
+        totalMaintenanceCost: {
+            type: Number,
+            min: 0,
+            default: 0,
+        },
+        lastMaintenanceDate: {
+            type: Date,
+        },
+        nextMaintenanceDate: {
+            type: Date,
+        },
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',

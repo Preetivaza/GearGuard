@@ -1,12 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const { getDashboardStats, getRecentActivities } = require('../controllers/statsController');
-const { protect } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
+const {
+    getDashboardStats,
+    getRecentActivities,
+    getEquipmentAnalytics,
+    getRequestTrends,
+    getCostAnalytics,
+    getSLACompliance,
+    getTeamPerformance,
+} = require('../controllers/statsController');
 
 // Dashboard statistics route
-router.get('/dashboard', protect, getDashboardStats);
-
-// Recent activities route
-router.get('/recent-activities', protect, getRecentActivities);
+router.route('/dashboard').get(protect, getDashboardStats);
+router.route('/recent-activities').get(protect, getRecentActivities);
+router.route('/equipment-analytics').get(protect, getEquipmentAnalytics);
+router.route('/request-trends').get(protect, getRequestTrends);
+router.route('/cost-analytics').get(protect, authorize('Manager'), getCostAnalytics);
+router.route('/sla-compliance').get(protect, getSLACompliance);
+router.route('/team-performance').get(protect, authorize('Manager'), getTeamPerformance);
 
 module.exports = router;

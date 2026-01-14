@@ -12,6 +12,12 @@ const requestRoutes = require('./routes/request');
 const statsRoutes = require('./routes/stats');
 const userRoutes = require('./routes/user');
 const seedRoutes = require('./routes/seed');
+const attachmentRoutes = require('./routes/attachment');
+const notificationRoutes = require('./routes/notification');
+const sparePartRoutes = require('./routes/sparePart');
+const slaRoutes = require('./routes/sla');
+const budgetRoutes = require('./routes/budget');
+const auditLogRoutes = require('./routes/auditLog');
 
 // Connect to database
 connectDB();
@@ -41,6 +47,9 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve uploaded files
+app.use('/uploads', express.static('uploads'));
+
 // Routes
 app.get('/', (req, res) => {
     res.json({ message: 'GearGuard API is running' });
@@ -53,6 +62,12 @@ app.use('/api/requests', requestRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/seed', seedRoutes);
+app.use('/api/attachments', attachmentRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/spare-parts', sparePartRoutes);
+app.use('/api/slas', slaRoutes);
+app.use('/api/budgets', budgetRoutes);
+app.use('/api/audit-logs', auditLogRoutes);
 
 // Error handling
 app.use(notFound);
