@@ -26,7 +26,7 @@ const Login = () => {
 
         try {
             await login(formData);
-            toast.success('Login successful!');
+            toast.success('Login successful!', { duration: 3000 });
             navigate('/');
         } catch (error) {
             toast.error(error.response?.data?.message || 'Login failed');
@@ -37,7 +37,6 @@ const Login = () => {
 
     return (
         <div className="auth-container">
-            <Toaster position="top-right" />
             <div className="auth-card">
                 <div className="auth-header">
                     <h1>⚙️ GearGuard</h1>

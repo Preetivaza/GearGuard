@@ -120,11 +120,13 @@
 .profile-button {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 18px;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
     background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
     border: 2px solid rgba(56, 189, 248, 0.2);
-    border-radius: var(--radius);
+    border-radius: 50%;
     cursor: pointer;
     transition: all var(--transition);
     font-size: 14px;
@@ -135,12 +137,12 @@
 .profile-button:hover {
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     border-color: var(--primary-light);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px) scale(1.1);
 }
 
 .profile-icon {
-    font-size: 22px;
+    font-size: 24px;
     color: var(--primary);
 }
 

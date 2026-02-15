@@ -18,6 +18,7 @@ const sparePartRoutes = require('./routes/sparePart');
 const slaRoutes = require('./routes/sla');
 const budgetRoutes = require('./routes/budget');
 const auditLogRoutes = require('./routes/auditLog');
+const testActivityRoutes = require('./routes/testActivities');
 
 // Connect to database
 connectDB();
@@ -68,6 +69,7 @@ app.use('/api/spare-parts', sparePartRoutes);
 app.use('/api/slas', slaRoutes);
 app.use('/api/budgets', budgetRoutes);
 app.use('/api/audit-logs', auditLogRoutes);
+app.use('/api/test-activities', testActivityRoutes);
 
 // Error handling
 app.use(notFound);

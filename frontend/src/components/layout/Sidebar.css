@@ -1,43 +1,231 @@
+/* Sidebar Beautiful Styling - Matching Project Theme */
+
 .sidebar {
-    width: 250px;
-    background: white;
-    border-right: 1px solid var(--border);
-    height: calc(100vh - 64px);
-    position: sticky;
-    top: 64px;
-    overflow-y: auto;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  border-right: 1px solid rgba(56, 189, 248, 0.15);
+  box-shadow: 0 2px 12px rgba(56, 189, 248, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sidebar-nav {
-    padding: 20px 0;
+.sidebar.collapsed {
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.06);
 }
 
-.sidebar-link {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 24px;
-    color: var(--text);
-    text-decoration: none;
-    transition: all 0.2s;
-    border-left: 3px solid transparent;
+/* Logo Section */
+.sidebar-logo {
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.12);
+  position: relative;
+  overflow: hidden;
 }
 
-.sidebar-link:hover {
-    background-color: var(--light);
+.sidebar-logo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
 }
 
-.sidebar-link.active {
-    background-color: #eff6ff;
-    border-left-color: var(--primary);
-    color: var(--primary);
+.sidebar-logo:hover::before {
+  left: 100%;
 }
 
-.sidebar-icon {
-    font-size: 20px;
+.sidebar-logo-text {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(56, 189, 248, 0.2);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-.sidebar-label {
-    font-size: 14px;
-    font-weight: 500;
+/* Navigation Section Headers */
+.nav-section-header {
+  color: var(--primary-dark);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 11px;
+  opacity: 0.7;
+  transition: all 0.2s;
+  position: relative;
+  padding-left: 16px;
 }
+
+.nav-section-header::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 12px;
+  background: linear-gradient(180deg, var(--primary-light), var(--secondary));
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.nav-section-header:hover::before {
+  opacity: 1;
+}
+
+/* Navigation Links */
+.nav-link {
+  position: relative;
+  border-radius: 10px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-secondary);
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--primary) 0%, var(--secondary-dark) 100%);
+  transform: scaleY(0);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0 2px 2px 0;
+}
+
+.nav-link:hover {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.06) 0%, rgba(129, 140, 248, 0.06) 100%);
+  color: var(--text);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.08);
+}
+
+.nav-link:hover::before {
+  transform: scaleY(1);
+}
+
+/* Active Link */
+.nav-link.active {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(129, 140, 248, 0.1) 100%);
+  color: var(--primary-dark);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.nav-link.active::before {
+  transform: scaleY(1);
+}
+
+.nav-link.active:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+}
+
+/* Icon Styling */
+.nav-link-icon {
+  color: var(--primary);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.nav-link:hover .nav-link-icon {
+  color: var(--primary-dark);
+  transform: scale(1.1);
+}
+
+.nav-link.active .nav-link-icon {
+  color: var(--primary-dark);
+  filter: drop-shadow(0 2px 4px rgba(56, 189, 248, 0.3));
+}
+
+/* Collapsed State Tooltip */
+.nav-link-tooltip {
+  background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-900) 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+}
+
+/* Scrollbar for Navigation */
+.sidebar-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+  background: rgba(56, 189, 248, 0.05);
+  border-radius: 3px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-light), var(--secondary-light));
+  border-radius: 3px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+  background: white;
+  border: 2px solid rgba(56, 189, 248, 0.2);
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.15);
+  transition: all 0.2s;
+  color: var(--primary);
+}
+
+.sidebar-toggle:hover {
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
+  transform: scale(1.1);
+}
+
+/* Section Divider */
+.nav-section {
+  position: relative;
+}
+
+.nav-section:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.15), transparent);
+}
+
+/* Spacing between sections */
+.nav-section + .nav-section {
+  margin-top: 24px;
+}
+
+/* Animation for navigation items */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.nav-link {
+  animation: slideInLeft 0.3s ease-out backwards;
+}
+
+.nav-section:nth-child(1) .nav-link { animation-delay: 0.05s; }
+.nav-section:nth-child(2) .nav-link { animation-delay: 0.1s; }
+.nav-section:nth-child(3) .nav-link { animation-delay: 0.15s; }
+.nav-section:nth-child(4) .nav-link { animation-delay: 0.2s; }
+.nav-section:nth-child(5) .nav-link { animation-delay: 0.25s; }

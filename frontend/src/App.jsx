@@ -31,12 +31,46 @@ import TeamForm from './pages/teams/TeamForm';
 
 // Spare Parts Pages
 import SparePartsList from './pages/spareParts/SparePartsList';
+import SparePartsDetail from './pages/spareParts/SparePartsDetail';
+import SparePartsForm from './pages/spareParts/SparePartsForm';
+
+// Test Activities Pages
+import TestActivitiesList from './pages/testActivities/TestActivitiesList';
+import TestActivityDetail from './pages/testActivities/TestActivityDetail';
 
 function App() {
     return (
         <AuthProvider>
             <Router>
-                <Toaster position="top-right" />
+                <Toaster 
+                    position="top-right"
+                    reverseOrder={false}
+                    gutter={8}
+                    toastOptions={{
+                        duration: 5000,
+                        style: {
+                            background: '#fff',
+                            color: '#333',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                            borderRadius: '10px',
+                            padding: '16px',
+                        },
+                        success: {
+                            duration: 5000,
+                            iconTheme: {
+                                primary: '#10b981',
+                                secondary: '#fff',
+                            },
+                        },
+                        error: {
+                            duration: 5000,
+                            iconTheme: {
+                                primary: '#ef4444',
+                                secondary: '#fff',
+                            },
+                        },
+                    }}
+                />
                 <Routes>
                     {/* Public Routes */}
                     <Route path="/login" element={<Login />} />
@@ -189,6 +223,58 @@ function App() {
                             <ProtectedRoute roles={['Technician', 'Manager']}>
                                 <Layout>
                                     <SparePartsList />
+                                </Layout>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/spare-parts/new"
+                        element={
+                            <ProtectedRoute roles={['Technician', 'Manager']}>
+                                <Layout>
+                                    <SparePartsForm />
+                                </Layout>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/spare-parts/:id"
+                        element={
+                            <ProtectedRoute roles={['Technician', 'Manager']}>
+                                <Layout>
+                                    <SparePartsDetail />
+                                </Layout>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/spare-parts/:id/edit"
+                        element={
+                            <ProtectedRoute roles={['Technician', 'Manager']}>
+                                <Layout>
+                                    <SparePartsForm />
+                                </Layout>
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* Test Activities Routes */}
+                    <Route
+                        path="/test-activities"
+                        element={
+                            <ProtectedRoute>
+                                <Layout>
+                                    <TestActivitiesList />
+                                </Layout>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/test-activities/:id"
+                        element={
+                            <ProtectedRoute>
+                                <Layout>
+                                    <TestActivityDetail />
                                 </Layout>
                             </ProtectedRoute>
                         }

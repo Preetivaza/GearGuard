@@ -30,7 +30,7 @@ const Signup = () => {
 
         try {
             await register(formData);
-            toast.success('Registration successful!');
+            toast.success('Registration successful!', { duration: 3000 });
             navigate('/');
         } catch (error) {
             toast.error(error.response?.data?.message || 'Registration failed');
@@ -41,7 +41,6 @@ const Signup = () => {
 
     return (
         <div className="auth-container">
-            <Toaster position="top-right" />
             <div className="auth-card">
                 <div className="auth-header">
                     <h1>⚙️ GearGuard</h1>

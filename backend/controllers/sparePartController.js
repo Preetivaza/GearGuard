@@ -94,6 +94,15 @@ exports.createSparePart = async (req, res) => {
     try {
         req.body.createdBy = req.user._id;
 
+        // Handle supplier field - convert string to object if needed
+        if (req.body.supplier && typeof req.body.supplier === 'string') {
+            req.body.supplier = {
+                name: req.body.supplier,
+                contact: '',
+                email: ''
+            };
+        }
+
         const sparePart = await SparePart.create(req.body);
 
         res.status(201).json({
@@ -122,6 +131,15 @@ exports.updateSparePart = async (req, res) => {
                 success: false,
                 message: 'Spare part not found',
             });
+        }
+
+        // Handle supplier field - convert string to object if needed
+        if (req.body.supplier && typeof req.body.supplier === 'string') {
+            req.body.supplier = {
+                name: req.body.supplier,
+                contact: '',
+                email: ''
+            };
         }
 
         sparePart = await SparePart.findByIdAndUpdate(req.params.id, req.body, {

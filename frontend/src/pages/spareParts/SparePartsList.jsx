@@ -204,8 +204,8 @@ const SparePartsList = () => {
                                                 </span>
                                             </div>
                                         </td>
-                                        <td>${part.unitPrice.toFixed(2)}</td>
-                                        <td className="total-value">${part.totalValue.toFixed(2)}</td>
+                                        <td>₹{part.unitPrice.toFixed(2)}</td>
+                                        <td className="total-value">₹{(part.quantity * part.unitPrice).toFixed(2)}</td>
                                         <td>
                                             <span className={getStatusBadgeClass(part.status)}>
                                                 {part.status}
@@ -241,7 +241,7 @@ const SparePartsList = () => {
                     <div className="stat-content">
                         <div className="stat-label">Total Inventory Value</div>
                         <div className="stat-value">
-                            ${spareParts.reduce((sum, part) => sum + part.totalValue, 0).toFixed(2)}
+                            ₹{spareParts.reduce((sum, part) => sum + (part.quantity * part.unitPrice), 0).toFixed(2)}
                         </div>
                     </div>
                 </div>

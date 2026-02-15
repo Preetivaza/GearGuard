@@ -25,6 +25,53 @@ exports.getDashboardStats = async (req, res) => {
             isActive: true
         });
 
+        // Get pending requests count (New status)
+        const pendingRequests = await MaintenanceRequest.countDocuments({
+            status: 'New'
+        });
+
+        // Get in-progress requests count
+        const inProgressRequests = await MaintenanceRequest.countDocuments({
+            status: 'In Progress'
+        });
+
+        // Get overdue requests count (where dueDate is in the past and status is not completed)
+        const now = new Date();
+        const overdueRequests = await MaintenanceRequest.countDocuments({
+            dueDate: { $lt: now },
+            status: { $nin: ['Repaired', 'Scrap'] }
+        });
+
+        // Calculate average completion time (in hours)
+        const completedRequestsWithTimes = await MaintenanceRequest.aggregate([
+            {
+                $match: {
+                    status: { $in: ['Repaired', 'Scrap'] },
+                    completedDate: { $exists: true, $ne: null }
+                }
+            },
+            {
+                $project: {
+                    completionTime: {
+                        $divide: [
+                            { $subtract: ['$completedDate', '$createdAt'] },
+                            1000 * 60 * 60 // Convert milliseconds to hours
+                        ]
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    avgCompletionTime: { $avg: '$completionTime' }
+                }
+            }
+        ]);
+
+        const avgCompletionTime = completedRequestsWithTimes.length > 0 
+            ? Math.round(completedRequestsWithTimes[0].avgCompletionTime) 
+            : 0;
+
         // Return aggregated statistics
         res.json({
             success: true,
@@ -32,7 +79,11 @@ exports.getDashboardStats = async (req, res) => {
                 totalEquipment,
                 activeRequests,
                 completedRequests,
-                totalTeams
+                totalTeams,
+                pendingRequests,
+                inProgressRequests,
+                overdueRequests,
+                avgCompletionTime
             }
         });
     } catch (error) {
@@ -59,11 +110,11 @@ exports.getRecentActivities = async (req, res) => {
             .select('name createdAt')
             .lean();
 
-        // Fetch recent maintenance requests
+        // Fetch recent maintenance requests with status
         const recentRequests = await MaintenanceRequest.find()
             .sort({ createdAt: -1 })
             .limit(limit)
-            .select('title priority createdAt')
+            .select('title priority status createdAt')
             .lean();
 
         // Fetch recent teams
@@ -79,30 +130,33 @@ exports.getRecentActivities = async (req, res) => {
         // Add equipment activities
         recentEquipment.forEach(item => {
             activities.push({
-                type: 'equipment',
+                type: 'Equipment',
                 icon: '🔧',
-                description: `New equipment added: ${item.name}`,
-                timestamp: item.createdAt
+                description: `Equipment added: ${item.name}`,
+                timestamp: item.createdAt,
+                status: 'Active'
             });
         });
 
         // Add request activities
         recentRequests.forEach(item => {
             activities.push({
-                type: 'request',
+                type: 'Request',
                 icon: '📝',
-                description: `New request: ${item.title} (${item.priority})`,
-                timestamp: item.createdAt
+                description: `Request: ${item.title} (${item.priority})`,
+                timestamp: item.createdAt,
+                status: item.status
             });
         });
 
         // Add team activities
         recentTeams.forEach(item => {
             activities.push({
-                type: 'team',
+                type: 'Team',
                 icon: '👥',
                 description: `Team created: ${item.name}`,
-                timestamp: item.createdAt
+                timestamp: item.createdAt,
+                status: 'Active'
             });
         });
 
